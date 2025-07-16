@@ -1,4 +1,6 @@
-# Road Runner Quickstart
+PLEASE READ:
+This repository was used for Irvington High School's 2024-25 School Year's Robotics Code, for team "Take 2".
 
-Check out the [docs](https://rr.brott.dev/docs/v1-0/tuning/).
+The repository has been archived, and is still viewable for reference. 
 
+Credits: ALL code was written by Sumedh Borkar & Shreeyansh Ghosh
