@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Pose2dDual;
 import com.acmerobotics.roadrunner.Time;
-import com.acmerobotics.roadrunner.Vector2d;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,7 +17,10 @@ import com.acmerobotics.roadrunner.HolonomicController;
 
 import org.firstinspires.ftc.teamcode.controller.PIDController;
 import org.firstinspires.ftc.teamcode.controller.PIDFController;
-
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 @TeleOp (name = "TeleopV2")
 public class TeleopV2 extends LinearOpMode {
@@ -44,6 +47,7 @@ public class TeleopV2 extends LinearOpMode {
         Servo leftArm = hardwareMap.servo.get("leftArm");
         Servo clawWrist = hardwareMap.servo.get("clawWrist");
         Servo clawServo = hardwareMap.servo.get("clawMotor");
+        Limelight3A limelight = hardwareMap.get(Limelight3A.class,"Limelight");
 
         double kp = 0.004, ki = 0, kd = 0, kf = 0.0000007;
         PIDFController controller = new PIDFController(kp, ki, kd, kf);
@@ -63,7 +67,8 @@ public class TeleopV2 extends LinearOpMode {
         slidesRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        limelight.pipelineSwitch(1);
+        LLResult result = limelight.getLatestResult();
         //POWERS & POSITIONS //////////////////////////////////
         double stopPower = 0;
 
@@ -364,6 +369,14 @@ public class TeleopV2 extends LinearOpMode {
                 double currArmPos = clawWrist.getPosition();
                 clawWrist.setPosition(currArmPos + 0.05);
                 gamepad2_dPadLeftReleased = false;
+            }
+            if(gamepad1.a){
+
+                while(result.getTx()!=0)
+                rightFront.setPower(-.1);
+                rightBack.setPower(-.1);
+                leftBack.setPower(.1);
+                leftFront.setPower(.1);
             }
 
 
