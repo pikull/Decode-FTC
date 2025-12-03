@@ -323,6 +323,10 @@ public class TeleopV2 extends LinearOpMode {
                     rightBack.setPower(-.1);
                     rightFront.setPower(-.1);
                 }
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightBack.setPower(0);
+                rightFront.setPower(0);
             }
 
 
