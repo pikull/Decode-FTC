@@ -309,6 +309,23 @@ public class TeleopV2 extends LinearOpMode {
             }
 
 
+            // click y: if tag in view, turn to center tag
+            if (gamepad2.y) {
+                while (result.getTx() > 3) {
+                    leftFront.setPower(-.1);
+                    leftBack.setPower(-.1);
+                    rightFront.setPower(.1);
+                    rightBack.setPower(.1);
+                }
+                while (result.getTx() < 3) {
+                    leftFront.setPower(.1);
+                    leftBack.setPower(.1);
+                    rightBack.setPower(-.1);
+                    rightFront.setPower(-.1);
+                }
+            }
+
+
             if (gamepad2.x && gamepad2_xReleased && clawClosed) {
                 targets = midLevel;
                 slidesGoingToMid = true;
