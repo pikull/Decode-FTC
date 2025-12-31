@@ -115,11 +115,7 @@ public class TeleopV2 extends LinearOpMode {
         while (opModeIsActive()) {
             if(gamepad2.a&& !iPower1){
                 intake.setPower(1);
-                if(gamepad2.atRest()){
-                    iPower1 = true;
-                }
-
-
+                iPower1 = true;
 
             }
             if(gamepad2.right_bumper&& iPower1){
