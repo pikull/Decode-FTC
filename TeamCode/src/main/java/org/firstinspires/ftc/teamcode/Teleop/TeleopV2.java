@@ -80,46 +80,7 @@ public class TeleopV2 extends LinearOpMode {
         //INIATE MOTOR POSITIONS
 
         // CURRENT STATES
-        boolean going_down = false;
-        boolean scissor_extended = false;
-        boolean intake_reversed = false;
-        boolean intake_running = false;
-        boolean extended_to_basket = false;
-        boolean clawReset = true;
-        boolean armWristInited = true;
-        boolean wristInPickupPos = false;
-        boolean clawJustClosedOnSample = false;
-        boolean clawClosed = false;
-        boolean slidesGoingToMid = false;
-        boolean slidesGoingtoHigh = false;
-        boolean atDropPos = false;
-        boolean justMovedToInitArm = false;
-
-        // BUTTON RELEASES
-        boolean gamepad1_rightBumperReleased = true;
-        boolean gamepad1_rightTriggerReleased = true;
-        boolean gamepad1_leftBumperReleased = true;
-        boolean gamepad1_dPadDownReleased = true;
-        boolean gamepad1_dPadUpReleased = true;
-        boolean gamepad1_dPadRightReleased = true;
-        boolean gamepad1_dPadLeftReleased = true;
-        boolean gamepad1_leftTriggerReleased = true;
-
-
-        boolean gamepad2_xReleased = true;
-        boolean gamepad2_yReleased = true;
-        boolean gamepad2_leftBumperReleased = true;
-        boolean gamepad2_rightBumperReleased = true;
-        boolean gamepad2_rightTriggerReleased = true;
-        boolean gamepad2_leftTriggerReleased = true;
-        boolean gamepad2_dPadLeftReleased = true;
-        boolean gamepad2_dPadRightReleased = true;
         boolean iPower1 = false;
-// TIMES
-        double wristInPickupPosTime = 0;
-        double clawClosedTime = 0;
-        double justMovedToDropPosTime = 0;
-        double justMovedToInitArmTime = 0;
 
 
 
