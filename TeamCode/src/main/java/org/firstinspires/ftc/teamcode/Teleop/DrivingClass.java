@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.controller.PIDFController;
 
 
-@TeleOp (name = "DriveTheRobot")
 public class DrivingClass extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

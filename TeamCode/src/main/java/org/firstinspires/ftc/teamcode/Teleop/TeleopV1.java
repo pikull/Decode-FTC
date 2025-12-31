@@ -1,24 +1,14 @@
-package org.firstinspires.ftc.teamcode.Teleop;
+/*/*package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-/**
- * This is an example minimal implementation of the mecanum drivetrain
- * for demonstration purposes.  Not tested and not guaranteed to be bug free.
- *
- * @author Brandon Gong
- */
+
 @TeleOp//(name="TeleopV1", group="Iterative Opmode")
 public class TeleopV1 extends OpMode {
 
-    /*
-     * The mecanum drivetrain involves four separate motors that spin in
-     * different directions and different speeds to produce the desired
-     * movement at the desired speed.
-     */
 
     // declare and initialize four DcMotors.
     private DcMotor front_left  = null;
@@ -48,26 +38,7 @@ public class TeleopV1 extends OpMode {
         double strafe = gamepad1.left_stick_x;
         double twist  = gamepad1.right_stick_x;
 
-        /*
-         * If we had a gyro and wanted to do field-oriented control, here
-         * is where we would implement it.
-         *
-         * The idea is fairly simple; we have a robot-oriented Cartesian (x,y)
-         * coordinate (strafe, drive), and we just rotate it by the gyro
-         * reading minus the offset that we read in the init() method.
-         * Some rough pseudocode demonstrating:
-         *
-         * if Field Oriented Control:
-         *     get gyro heading
-         *     subtract initial offset from heading
-         *     convert heading to radians (if necessary)
-         *     new strafe = strafe * cos(heading) - drive * sin(heading)
-         *     new drive  = strafe * sin(heading) + drive * cos(heading)
-         *
-         * If you want more understanding on where these rotation formulas come
-         * from, refer to
-         * https://en.wikipedia.org/wiki/Rotation_(mathematics)#Two_dimensions
-         */
+
 
         // You may need to multiply some of these by -1 to invert direction of
         // the motor.  This is not an issue with the calculations themselves.
@@ -101,3 +72,4 @@ public class TeleopV1 extends OpMode {
         back_right.setPower(speeds[3]);
     }
 }
+*/

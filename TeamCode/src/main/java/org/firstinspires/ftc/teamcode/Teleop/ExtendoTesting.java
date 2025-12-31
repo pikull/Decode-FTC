@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.controller.PIDFController;
 
 
-@TeleOp (name = "extendoTestingHiShreeansh")
 public class ExtendoTesting extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
