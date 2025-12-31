@@ -14,9 +14,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-<<<<<<< HEAD
-// test
-=======
+
 import com.acmerobotics.roadrunner.HolonomicController;
 
 import org.firstinspires.ftc.teamcode.controller.PIDController;
@@ -25,7 +23,6 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
->>>>>>> 45a1ff79cf1c22d40771487510cd30112beb8eea
 
 
 import org.firstinspires.ftc.teamcode.controller.PIDFController;
