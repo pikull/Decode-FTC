@@ -1,15 +1,31 @@
 package org.firstinspires.ftc.teamcode.Teleop;
-
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Pose2dDual;
+import com.acmerobotics.roadrunner.Time;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
+<<<<<<< HEAD
 // test
+=======
+import com.acmerobotics.roadrunner.HolonomicController;
+
+import org.firstinspires.ftc.teamcode.controller.PIDController;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+
+>>>>>>> 45a1ff79cf1c22d40771487510cd30112beb8eea
 
 
 import org.firstinspires.ftc.teamcode.controller.PIDFController;
@@ -55,6 +71,9 @@ public class TeleopV2 extends LinearOpMode {
         //POWERS & POSITIONS //////////////////////////////////
         intake.setPower(0);
 
+        // LIMELIGHT
+        Limelight3A limelight = hardwareMap.get(Limelight3A.class,"Limelight");
+        LLResult result = limelight.getLatestResult();
 
 
 
@@ -65,46 +84,7 @@ public class TeleopV2 extends LinearOpMode {
         //INIATE MOTOR POSITIONS
 
         // CURRENT STATES
-        boolean going_down = false;
-        boolean scissor_extended = false;
-        boolean intake_reversed = false;
-        boolean intake_running = false;
-        boolean extended_to_basket = false;
-        boolean clawReset = true;
-        boolean armWristInited = true;
-        boolean wristInPickupPos = false;
-        boolean clawJustClosedOnSample = false;
-        boolean clawClosed = false;
-        boolean slidesGoingToMid = false;
-        boolean slidesGoingtoHigh = false;
-        boolean atDropPos = false;
-        boolean justMovedToInitArm = false;
-
-        // BUTTON RELEASES
-        boolean gamepad1_rightBumperReleased = true;
-        boolean gamepad1_rightTriggerReleased = true;
-        boolean gamepad1_leftBumperReleased = true;
-        boolean gamepad1_dPadDownReleased = true;
-        boolean gamepad1_dPadUpReleased = true;
-        boolean gamepad1_dPadRightReleased = true;
-        boolean gamepad1_dPadLeftReleased = true;
-        boolean gamepad1_leftTriggerReleased = true;
-
-
-        boolean gamepad2_xReleased = true;
-        boolean gamepad2_yReleased = true;
-        boolean gamepad2_leftBumperReleased = true;
-        boolean gamepad2_rightBumperReleased = true;
-        boolean gamepad2_rightTriggerReleased = true;
-        boolean gamepad2_leftTriggerReleased = true;
-        boolean gamepad2_dPadLeftReleased = true;
-        boolean gamepad2_dPadRightReleased = true;
         boolean iPower1 = false;
-// TIMES
-        double wristInPickupPosTime = 0;
-        double clawClosedTime = 0;
-        double justMovedToDropPosTime = 0;
-        double justMovedToInitArmTime = 0;
 
 
 
@@ -113,6 +93,8 @@ public class TeleopV2 extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            // GAMEPAD 2 CONTROLS
+
             if(gamepad2.a&& !iPower1){
                 intake.setPower(1);
                 iPower1 = true;
@@ -124,6 +106,27 @@ public class TeleopV2 extends LinearOpMode {
             }
             if (gamepad2.left_bumper){
                 intake.setPower(-1);
+            }
+
+            // rotato potato until see april tag
+            // click y: if tag in view, turn to center tag
+            if (gamepad2.y) {
+                while (result.getTx() > 3) {
+                    leftFront.setPower(-.1);
+                    leftBack.setPower(-.1);
+                    rightFront.setPower(.1);
+                    rightBack.setPower(.1);
+                }
+                while (result.getTx() < 3) {
+                    leftFront.setPower(.1);
+                    leftBack.setPower(.1);
+                    rightBack.setPower(-.1);
+                    rightFront.setPower(-.1);
+                }
+                leftFront.setPower(0);
+                leftBack.setPower(0);
+                rightBack.setPower(0);
+                rightFront.setPower(0);
             }
 
 
