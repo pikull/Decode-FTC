@@ -108,13 +108,13 @@ public class TeleopV2 extends LinearOpMode {
             // rotato potato until see april tag
             // click y: if tag in view, turn to center tag
             if (gamepad2.y) {
-                while (result.getTx() > 3) {
+                while (limelight.getLatestResult().getTx() > 3) {
                     leftFront.setPower(-.1);
                     leftBack.setPower(-.1);
                     rightFront.setPower(.1);
                     rightBack.setPower(.1);
                 }
-                while (result.getTx() < 3) {
+                while (limelight.getLatestResult().getTx() < 3) {
                     leftFront.setPower(.1);
                     leftBack.setPower(.1);
                     rightBack.setPower(-.1);
