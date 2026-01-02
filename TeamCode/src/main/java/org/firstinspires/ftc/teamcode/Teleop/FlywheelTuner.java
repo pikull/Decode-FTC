@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @TeleOp
@@ -27,7 +28,12 @@ public class FlywheelTuner extends OpMode {
     @Override
     public void init() {
 
-        flywheelMotor = hardwareMap.get(DcMotorEx.class, "leftShooter")
+        DcMotor flywheelMotor = hardwareMap.get(DcMotorEx.class, "leftShooter");
+
+    }
+
+    @Override
+    public void loop() {
 
     }
 
