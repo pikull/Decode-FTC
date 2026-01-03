@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -39,6 +39,12 @@ public class FlywheelTuner extends OpMode {
                 new PIDFCoefficients(leftP, 0, 0, leftF)
         );
         telemetry.addLine("Left Init Complete");
+        DcMotor flywheelMotor = hardwareMap.get(DcMotorEx.class, "leftShooter");
+
+    }
+
+    @Override
+    public void loop() {
 
         flywheelMotorR = hardwareMap.get(DcMotorEx.class, "rightShooter");
         flywheelMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -48,6 +54,7 @@ public class FlywheelTuner extends OpMode {
                 new PIDFCoefficients(rightP, 0, 0, rightF)
         );
         telemetry.addLine("Right Init Complete");
+        DcMotor flywheelMotor = hardwareMap.get(DcMotorEx.class, "rightShooter");
     }
 
     @Override

@@ -98,6 +98,8 @@ public class TeleopV2 extends LinearOpMode {
             }
             if (gamepad2.left_bumper) {
                 intake.setPower(-1);
+                intake.setPower(-1);
+                leftS.getPower();
             }
 
 
