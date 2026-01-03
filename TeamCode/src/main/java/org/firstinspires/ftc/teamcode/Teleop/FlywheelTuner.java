@@ -41,11 +41,6 @@ public class FlywheelTuner extends OpMode {
         telemetry.addLine("Left Init Complete");
         DcMotor flywheelMotor = hardwareMap.get(DcMotorEx.class, "leftShooter");
 
-    }
-
-    @Override
-    public void loop() {
-
         flywheelMotorR = hardwareMap.get(DcMotorEx.class, "rightShooter");
         flywheelMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         flywheelMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
