@@ -105,6 +105,7 @@ public class TeleopV2 extends LinearOpMode {
 
             // rotato potato until see april tag
             // click y: if tag in view, turn to center tag
+            // then change angle based on distance
             if (gamepad2.y) {
                 double goon = 0.0;
                 if (result.isValid()) {
@@ -120,7 +121,7 @@ public class TeleopV2 extends LinearOpMode {
                     result = limelight.getLatestResult();
                     goon = result.getTx();
                 }
-                while (result.isValid() && result.getTx() < 1) {
+                while (result.isValid() && goon < 1) {
                     leftFront.setPower(-.15);
                     leftBack.setPower(-.15);
                     rightBack.setPower(.15);
@@ -135,6 +136,7 @@ public class TeleopV2 extends LinearOpMode {
                 rightBack.setPower(0);
                 rightFront.setPower(0);
             }
+
 
 
             // GAMEPAD 1 CONTROLS
