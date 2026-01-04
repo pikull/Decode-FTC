@@ -32,8 +32,8 @@ public class TeleopV2 extends LinearOpMode {
         DcMotor intake = hardwareMap.dcMotor.get("intake");
 
 
-        Servo intakeS = hardwareMap.servo.get("intakeS");
-        CRServo outakeS = hardwareMap.get(CRServo.class, "outakeS");
+        Servo outtakeS = hardwareMap.servo.get("outtakeS");
+        CRServo intakeS = hardwareMap.get(CRServo.class, "intakeS");
         double kp = 0.004, ki = 0, kd = 0, kf = 0.0000007;
 
         PIDFController controller = new PIDFController(kp, ki, kd, kf);
