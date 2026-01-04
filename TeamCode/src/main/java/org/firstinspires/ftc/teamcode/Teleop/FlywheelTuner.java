@@ -39,7 +39,7 @@ public class FlywheelTuner extends OpMode {
                 new PIDFCoefficients(leftP, 0, 0, leftF)
         );
         telemetry.addLine("Left Init Complete");
-        DcMotor flywheelMotor = hardwareMap.get(DcMotorEx.class, "leftShooter");
+
 
         flywheelMotorR = hardwareMap.get(DcMotorEx.class, "rightShooter");
         flywheelMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -49,7 +49,6 @@ public class FlywheelTuner extends OpMode {
                 new PIDFCoefficients(rightP, 0, 0, rightF)
         );
         telemetry.addLine("Right Init Complete");
-        DcMotor flywheelMotor = hardwareMap.get(DcMotorEx.class, "rightShooter");
     }
 
     @Override
@@ -57,7 +56,7 @@ public class FlywheelTuner extends OpMode {
 
         /* ================= LEFT ================= */
 
-        if (gamepad1.left_bumper) {
+        if (gamepad1.left_bumper && gamepad1.atRest()) {
             curTargetVelocityL =
                     (curTargetVelocityL == highVelocity) ? lowVelocity : highVelocity;
         }
@@ -66,19 +65,19 @@ public class FlywheelTuner extends OpMode {
             stepIndex = (stepIndex + 1) % stepSizes.length;
         }
 
-        if (gamepad1.dpad_left) {
+        if (gamepad1.dpad_left && gamepad1.atRest()) {
             leftF -= stepSizes[stepIndex];
         }
 
-        if (gamepad1.dpad_right) {
+        if (gamepad1.dpad_right && gamepad1.atRest()) {
             leftF += stepSizes[stepIndex];
         }
 
-        if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_up && gamepad1.atRest()) {
             leftP += stepSizes[stepIndex];
         }
 
-        if (gamepad1.dpad_down) {
+        if (gamepad1.dpad_down && gamepad1.atRest()) {
             leftP -= stepSizes[stepIndex];
         }
 
@@ -103,15 +102,15 @@ public class FlywheelTuner extends OpMode {
 
         /* ================= RIGHT ================= */
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper && gamepad1.atRest()) {
             curTargetVelocityR =
                     (curTargetVelocityR == highVelocity) ? lowVelocity : highVelocity;
         }
 
-        if (gamepad1.x) rightF -= stepSizes[stepIndex];
-        if (gamepad1.b) rightF += stepSizes[stepIndex];
-        if (gamepad1.y) rightP += stepSizes[stepIndex];
-        if (gamepad1.a) rightP -= stepSizes[stepIndex];
+        if (gamepad1.x && gamepad1.atRest()) rightF -= stepSizes[stepIndex];
+        if (gamepad1.b && gamepad1.atRest()) rightF += stepSizes[stepIndex];
+        if (gamepad1.y && gamepad1.atRest()) rightP += stepSizes[stepIndex];
+        if (gamepad1.a && gamepad1.atRest()) rightP -= stepSizes[stepIndex];
 
         flywheelMotorR.setPIDFCoefficients(
                 DcMotor.RunMode.RUN_USING_ENCODER,
