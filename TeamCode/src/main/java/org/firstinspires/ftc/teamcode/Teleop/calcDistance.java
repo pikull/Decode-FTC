@@ -16,6 +16,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 
 @TeleOp(name = "calcDistance")
 public class calcDistance extends LinearOpMode {
+    double distance;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -25,6 +26,7 @@ public class calcDistance extends LinearOpMode {
         limelight.pipelineSwitch(0);
         limelight.start();
         LLResult result = limelight.getLatestResult();
+
 
 
         double startMovingArmBackDistFromTarget = 600;
@@ -46,11 +48,23 @@ public class calcDistance extends LinearOpMode {
             telemetry.addData("LL", "Temp:%1fC, CPU:%.1f%%,FPS: %d", status.getTemp(), status.getCpu(), (int) status.getFps());
             result = limelight.getLatestResult();
             if (result.isValid()) {
+                Pose3D botpose = result.getBotpose_MT2();
+                distance = getDistance(result.getTa());
                 double tx = result.getTx();
                 telemetry.addData("result", tx);
+                telemetry.addData("distance",distance);
                 telemetry.addData("ta", result.getTa());
+                telemetry.addData("botpose:", botpose);
                 telemetry.update();
             }
+
         }
+
+    }
+    public double getDistance(double ta){
+        double distance = 67.51967/Math.sqrt(ta);
+
+        //double distance = 110.7079 - (48.58263/0.4940878)*(1 - Math.pow(Math.E,-0.4940878*ta));
+        return distance;
     }
 }

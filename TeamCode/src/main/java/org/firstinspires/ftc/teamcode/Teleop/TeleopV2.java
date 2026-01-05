@@ -32,8 +32,8 @@ public class TeleopV2 extends LinearOpMode {
         DcMotor intake = hardwareMap.dcMotor.get("intake");
 
 
-        Servo outtakeS = hardwareMap.servo.get("outtakeS");
-        CRServo intakeS = hardwareMap.get(CRServo.class, "intakeS");
+        Servo intakeS = hardwareMap.servo.get("intakeS");
+        CRServo outakeS = hardwareMap.get(CRServo.class, "outakeS");
         double kp = 0.004, ki = 0, kd = 0, kf = 0.0000007;
 
         PIDFController controller = new PIDFController(kp, ki, kd, kf);
@@ -105,7 +105,6 @@ public class TeleopV2 extends LinearOpMode {
 
             // rotato potato until see april tag
             // click y: if tag in view, turn to center tag
-            // then change angle based on distance
             if (gamepad2.y) {
                 double goon = 0.0;
                 if (result.isValid()) {
@@ -121,7 +120,7 @@ public class TeleopV2 extends LinearOpMode {
                     result = limelight.getLatestResult();
                     goon = result.getTx();
                 }
-                while (result.isValid() && goon < 1) {
+                while (result.isValid() && result.getTx() < 1) {
                     leftFront.setPower(-.15);
                     leftBack.setPower(-.15);
                     rightBack.setPower(.15);
@@ -136,7 +135,6 @@ public class TeleopV2 extends LinearOpMode {
                 rightBack.setPower(0);
                 rightFront.setPower(0);
             }
-
 
 
             // GAMEPAD 1 CONTROLS
