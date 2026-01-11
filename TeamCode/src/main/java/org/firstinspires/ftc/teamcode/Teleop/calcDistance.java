@@ -61,7 +61,7 @@ public class calcDistance extends LinearOpMode {
         }
 
     }
-    public double getDistance(double ta){
+    public static double getDistance(double ta){
         double distance = 67.51967/Math.sqrt(ta);
 
         //double distance = 110.7079 - (48.58263/0.4940878)*(1 - Math.pow(Math.E,-0.4940878*ta));

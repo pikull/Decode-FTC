@@ -26,14 +26,14 @@ public class goon extends LinearOpMode {
         DcMotor rightFront = hardwareMap.dcMotor.get("rightFront");
         DcMotor rightBack = hardwareMap.dcMotor.get("rightBack");
 
-        DcMotor rightS = hardwareMap.dcMotor.get("rightShooter");
-        DcMotor leftS = hardwareMap.dcMotor.get("leftShooter");
+        DcMotorEx rightS = hardwareMap.get(DcMotorEx.class, "rightShooter");
+        DcMotorEx leftS = hardwareMap.get(DcMotorEx.class, "leftShooter");
         DcMotor intake = hardwareMap.dcMotor.get("intake");
 
         Servo outakeS = hardwareMap.servo.get("outakeS");
         CRServo intakeS = hardwareMap.get(CRServo.class, "intakeS");
-        
-        PIDFController controller = new PIDFController(kp, ki, kd, kf);
+
+
 
         //REVERSE + INITIATE ENCODERS
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -58,6 +58,11 @@ public class goon extends LinearOpMode {
         // INITIATE MOTOR POSITIONS
         // CURRENT STATES
         boolean iPower1 = false;
+        double ta = 0;
+        int farshot = 1500;
+        int closeshot = 1100;
+        double outakePos = 0.2;
+        double outakeFarPos = 0.1;
 
         waitForStart();
 
@@ -124,11 +129,23 @@ public class goon extends LinearOpMode {
                 rightBack.setPower(0);
                 rightFront.setPower(0);
             }
-            if(gamepad2.b){
-                leftS.setPower(1);
-                rightS.setPower(1);
+            if (gamepad2.x) {
+                if (result.isValid()) {
+                    ta = result.getTa();
+                }
+                if (calcDistance.getDistance(ta) < 80) {
+                    rightS.setVelocity(closeshot);
+                    leftS.setVelocity(closeshot);
+                    outakeS.setPosition(outakePos);
+                    intakeS.setPower(1);
+                } else {
+                    rightS.setVelocity(farshot);
+                    leftS.setVelocity(farshot);
+                    outakeS.setPosition(outakeFarPos);
+                    intakeS.setPower(1);
+
+                }
             }
-            if(gamepad2.left_stick_button){
 
             // GAMEPAD 1 CONTROLS
             //ARM MOTOR POSITION TESTING
@@ -150,9 +167,15 @@ public class goon extends LinearOpMode {
             rightFront.setPower(frontRightPower);
             rightBack.setPower(backRightPower);
 
-            // SCISSOR LIFT + INTAKE ///////////////
-            // extends scissor lift, extends 4bar
         }
+
+
+
     }
 
+            // SCISSOR LIFT + INTAKE ///////////////
+            // extends scissor lift, extends 4bar
 }
+
+
+
