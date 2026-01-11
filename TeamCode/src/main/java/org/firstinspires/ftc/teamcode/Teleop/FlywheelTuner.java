@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class FlywheelTuner extends OpMode {
@@ -28,6 +29,10 @@ public class FlywheelTuner extends OpMode {
     double rightP = 0;
     double curTargetVelocityR = highVelocity;
 
+    //servo
+    public Servo angleServo;
+    double angle = 0.5;
+
     @Override
     public void init() {
 
@@ -49,17 +54,21 @@ public class FlywheelTuner extends OpMode {
                 new PIDFCoefficients(rightP, 0, 0, rightF)
         );
         telemetry.addLine("Right Init Complete");
-    }
+
+
+        angleServo = hardwareMap.get(Servo.class, "outtakeS");
+        angleServo.setPosition(angle);
+    }   
 
     @Override
     public void loop() {
 
         /* ================= LEFT ================= */
 
-        if (gamepad1.left_bumper && gamepad1.atRest()) {
-            curTargetVelocityL =
-                    (curTargetVelocityL == highVelocity) ? lowVelocity : highVelocity;
-        }
+        //if (gamepad1.left_bumper && gamepad1.atRest()) {
+        //    curTargetVelocityL =
+        //            (curTargetVelocityL == highVelocity) ? lowVelocity : highVelocity;
+        //}
 
         if (gamepad1.left_trigger > 0.5) {
             stepIndex = (stepIndex + 1) % stepSizes.length;
@@ -102,22 +111,15 @@ public class FlywheelTuner extends OpMode {
 
         /* ================= RIGHT ================= */
 
-        if (gamepad1.right_bumper && gamepad1.atRest()) {
-            curTargetVelocityR =
-                    (curTargetVelocityR == highVelocity) ? lowVelocity : highVelocity;
-        }
+        //if (gamepad1.right_bumper && gamepad1.atRest()) {
+        //    curTargetVelocityR =
+        //            (curTargetVelocityR == highVelocity) ? lowVelocity : highVelocity;
+        //}
 
-<<<<<<< HEAD
-        if (gamepad1.x) rightF -= stepSizes[stepIndex];
-        if (gamepad1.b) rightF += stepSizes[stepIndex];
-        if (gamepad1.y) rightP += stepSizes[stepIndex]; 
-        if (gamepad1.a) rightP -= stepSizes[stepIndex];
-=======
         if (gamepad1.x && gamepad1.atRest()) rightF -= stepSizes[stepIndex];
         if (gamepad1.b && gamepad1.atRest()) rightF += stepSizes[stepIndex];
         if (gamepad1.y && gamepad1.atRest()) rightP += stepSizes[stepIndex];
         if (gamepad1.a && gamepad1.atRest()) rightP -= stepSizes[stepIndex];
->>>>>>> 260a469539f7ea95e7e2a32a99e161e77707d9f0
 
         flywheelMotorR.setPIDFCoefficients(
                 DcMotor.RunMode.RUN_USING_ENCODER,
@@ -138,5 +140,22 @@ public class FlywheelTuner extends OpMode {
         telemetry.addData("Step Size", "%.4f", stepSizes[stepIndex]);
 
         telemetry.update();
+
+        /* ================= ANGLE ================= */
+
+        if (gamepad1.right_bumper && gamepad1.atRest) {
+            angle += 0.01;
+        }
+        if (gamepad1.right_trigger && gamepad1.atRest) {
+            angle -= 0.01;
+        }
+
+        angle = Math.max(0.0, Math.min(1.0, angle));
+        angleServo.setPosition(angle);
+
+        angleServo.setPosition(angle);
+
+        telemetry.addLine("Angle Stuff");
+        telemetry.addData("Current Angle", "%.3f" angle);
     }
 }
