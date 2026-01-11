@@ -22,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.messages.TwoDeadWheelInputsMessage;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
@@ -34,6 +35,7 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     public final Encoder par, perp;
     public final IMU imu;
+        public final GoBildaPinpointDriver pinpoint;
 
     private int lastParPos, lastPerpPos;
     private Rotation2d lastHeading;
@@ -54,30 +56,60 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         //   par.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.imu = imu;
+        this.pinpoint = null;
 
         this.inPerTick = inPerTick;
 
         FlightRecorder.write("TWO_DEAD_WHEEL_PARAMS", PARAMS);
     }
 
+        public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU imu, GoBildaPinpointDriver pinpoint, double inPerTick) {
+                par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
+                perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp")));
+
+                this.imu = imu;
+                this.pinpoint = pinpoint;
+
+                // TODO: reverse encoder directions if needed
+                //   par.setDirection(DcMotorSimple.Direction.REVERSE);
+
+                this.inPerTick = inPerTick;
+
+                FlightRecorder.write("TWO_DEAD_WHEEL_PARAMS", PARAMS);
+        }
+
     public Twist2dDual<Time> update() {
         PositionVelocityPair parPosVel = par.getPositionAndVelocity();
         PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
 
-        YawPitchRollAngles angles = imu.getRobotYawPitchRollAngles();
-        // Use degrees here to work around https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/1070
-        AngularVelocity angularVelocityDegrees = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
-        AngularVelocity angularVelocity = new AngularVelocity(
-                UnnormalizedAngleUnit.RADIANS,
-                (float) Math.toRadians(angularVelocityDegrees.xRotationRate),
-                (float) Math.toRadians(angularVelocityDegrees.yRotationRate),
-                (float) Math.toRadians(angularVelocityDegrees.zRotationRate),
-                angularVelocityDegrees.acquisitionTime
-        );
+                // Read IMU angles and angular velocity if available (for logging and angular velocity)
+                YawPitchRollAngles angles = null;
+                AngularVelocity angularVelocity = null;
+                if (imu != null) {
+                        angles = imu.getRobotYawPitchRollAngles();
+                        // Use degrees here to work around https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/1070
+                        AngularVelocity angularVelocityDegrees = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
+                        angularVelocity = new AngularVelocity(
+                                        UnnormalizedAngleUnit.RADIANS,
+                                        (float) Math.toRadians(angularVelocityDegrees.xRotationRate),
+                                        (float) Math.toRadians(angularVelocityDegrees.yRotationRate),
+                                        (float) Math.toRadians(angularVelocityDegrees.zRotationRate),
+                                        angularVelocityDegrees.acquisitionTime
+                        );
+                }
 
-        FlightRecorder.write("TWO_DEAD_WHEEL_INPUTS", new TwoDeadWheelInputsMessage(parPosVel, perpPosVel, angles, angularVelocity));
+                FlightRecorder.write("TWO_DEAD_WHEEL_INPUTS", new TwoDeadWheelInputsMessage(parPosVel, perpPosVel, angles, angularVelocity));
 
-        Rotation2d heading = Rotation2d.exp(angles.getYaw(AngleUnit.RADIANS));
+                // Use the Pinpoint heading when available, otherwise fallback to IMU heading
+                double headingRad;
+                if (pinpoint != null) {
+                        headingRad = pinpoint.getHeading(AngleUnit.RADIANS);
+                } else if (angles != null) {
+                        headingRad = angles.getYaw(AngleUnit.RADIANS);
+                } else {
+                        headingRad = 0.0;
+                }
+                Rotation2d heading = Rotation2d.exp(headingRad);
 
         // see https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/617
         double rawHeadingVel = angularVelocity.zRotationRate;
