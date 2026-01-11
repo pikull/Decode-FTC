@@ -65,10 +65,10 @@ public class FlywheelTuner extends OpMode {
 
         /* ================= LEFT ================= */
 
-        //if (gamepad1.left_bumper && gamepad1.atRest()) {
-        //    curTargetVelocityL =
-        //            (curTargetVelocityL == highVelocity) ? lowVelocity : highVelocity;
-        //}
+        if (gamepad1.left_bumper && gamepad1.atRest()) {
+            curTargetVelocityL =
+                    (curTargetVelocityL == highVelocity) ? lowVelocity : highVelocity;
+        }
 
         if (gamepad1.left_trigger > 0.5) {
             stepIndex = (stepIndex + 1) % stepSizes.length;
@@ -111,10 +111,10 @@ public class FlywheelTuner extends OpMode {
 
         /* ================= RIGHT ================= */
 
-        //if (gamepad1.right_bumper && gamepad1.atRest()) {
-        //    curTargetVelocityR =
-        //            (curTargetVelocityR == highVelocity) ? lowVelocity : highVelocity;
-        //}
+        if (gamepad1.right_bumper && gamepad1.atRest()) {
+            curTargetVelocityR =
+                    (curTargetVelocityR == highVelocity) ? lowVelocity : highVelocity;
+        }
 
         if (gamepad1.x && gamepad1.atRest()) rightF -= stepSizes[stepIndex];
         if (gamepad1.b && gamepad1.atRest()) rightF += stepSizes[stepIndex];
@@ -143,11 +143,11 @@ public class FlywheelTuner extends OpMode {
 
         /* ================= ANGLE ================= */
 
-        if (gamepad1.right_bumper && gamepad1.atRest) {
-            angle += 0.01;
+        if (gamepad1.right_bumper) {
+            angle += 0.1;
         }
-        if (gamepad1.right_trigger && gamepad1.atRest) {
-            angle -= 0.01;
+        if (gamepad1.right_trigger) {
+            angle -= 0.1;
         }
 
         angle = Math.max(0.0, Math.min(1.0, angle));
@@ -157,5 +157,7 @@ public class FlywheelTuner extends OpMode {
 
         telemetry.addLine("Angle Stuff");
         telemetry.addData("Current Angle", "%.3f" angle);
+
+        telemetry.update();
     }
 }
