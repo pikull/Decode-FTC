@@ -110,7 +110,7 @@ public class FlywheelTuner extends OpMode {
 
         if (gamepad1.x) rightF -= stepSizes[stepIndex];
         if (gamepad1.b) rightF += stepSizes[stepIndex];
-        if (gamepad1.y) rightP += stepSizes[stepIndex];
+        if (gamepad1.y) rightP += stepSizes[stepIndex]; 
         if (gamepad1.a) rightP -= stepSizes[stepIndex];
 
         flywheelMotorR.setPIDFCoefficients(
