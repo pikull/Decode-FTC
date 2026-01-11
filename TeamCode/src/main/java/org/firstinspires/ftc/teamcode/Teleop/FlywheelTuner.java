@@ -56,6 +56,14 @@ public class FlywheelTuner extends OpMode {
         telemetry.addLine("Right Init Complete");
 
 
+
+
+
+
+
+
+
+        
         angleServo = hardwareMap.get(Servo.class, "outtakeS");
         angleServo.setPosition(angle);
     }   
