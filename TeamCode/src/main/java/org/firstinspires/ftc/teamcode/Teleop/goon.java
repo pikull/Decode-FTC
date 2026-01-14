@@ -31,7 +31,6 @@ public class TeleopV2 extends LinearOpMode {
         DcMotor leftS = hardwareMap.dcMotor.get("leftShooter");
         DcMotor intake = hardwareMap.dcMotor.get("intake");
 
-
         Servo intakeS = hardwareMap.servo.get("intakeS");
         CRServo outakeS = hardwareMap.get(CRServo.class, "outakeS");
         double kp = 0.004, ki = 0, kd = 0, kf = 0.0000007;
@@ -63,6 +62,11 @@ public class TeleopV2 extends LinearOpMode {
 
 
         double startMovingArmBackDistFromTarget = 600;
+
+        double cameraHeight = 7.0; // NEEDS TO BE ADJUSTED IN PERSON (UNITS ARE INCHES !!!!)
+        double targetHeight = 18.0; // ^^^^
+        double cameraAngle = 20.0; // ^^^^
+        double ty = limelight.getTY();
 
 
         //INIATE MOTOR POSITIONS
@@ -160,6 +164,34 @@ public class TeleopV2 extends LinearOpMode {
             leftBack.setPower(backLeftPower);
             rightFront.setPower(frontRightPower);
             rightBack.setPower(backRightPower);
+
+            if (gamepad1.right_trigger) {
+
+                double distanceTrig = (targetHeight - cameraHeight) / Math.tan(Math.toRadians(cameraAngle + ty));
+                double distancePose = limelight.getBotPoseTargetSpace()[2] * 39.3701   ; 
+
+                double finalDistance = (distanceTrig + distancePose) / 2
+
+
+                if (finalDistance < 60) { //DOUBLE CHECK SHORT DISTANCE
+
+                    flywheelMotorL.setVelocity(1160);
+                    flywheelMotorR.setVelocity(1160);
+                    outakeS.setPosition(0.1878);
+
+                }
+
+                else {
+
+                    flywheelMotorL.setVelocity(1500);
+                    flywheelMotorR.setVelocity(1500);
+                    outakeS.setPosition(0.17);
+
+                }
+            }
+
+            flywheelMotorL.setVelocity(0);
+            flywheelMotorR.setVelocity(0);
 
 
             // SCISSOR LIFT + INTAKE ///////////////
