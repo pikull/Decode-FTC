@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class FlywheelTuner extends OpMode {
-
+Servo outake;
     // general
     public double highVelocity = 1500;
     public double lowVelocity = 900;
@@ -29,13 +29,9 @@ public class FlywheelTuner extends OpMode {
     double rightP = 0;
     double curTargetVelocityR = highVelocity;
 
-    //servo
-    public Servo angleServo;
-    double angle = 0.5;
-
     @Override
     public void init() {
-
+        outake = hardwareMap.servo.get("outakeS");
         flywheelMotorL = hardwareMap.get(DcMotorEx.class, "leftShooter");
         flywheelMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         flywheelMotorL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -44,29 +40,18 @@ public class FlywheelTuner extends OpMode {
                 new PIDFCoefficients(leftP, 0, 0, leftF)
         );
         telemetry.addLine("Left Init Complete");
+        outake.setPosition(0.5 );
 
 
         flywheelMotorR = hardwareMap.get(DcMotorEx.class, "rightShooter");
         flywheelMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheelMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+
         flywheelMotorR.setPIDFCoefficients(
                 DcMotor.RunMode.RUN_USING_ENCODER,
                 new PIDFCoefficients(rightP, 0, 0, rightF)
         );
         telemetry.addLine("Right Init Complete");
-
-
-
-
-
-
-
-
-
-        
-        angleServo = hardwareMap.get(Servo.class, "outtakeS");
-        angleServo.setPosition(angle);
-    }   
+    }
 
     @Override
     public void loop() {
@@ -136,9 +121,16 @@ public class FlywheelTuner extends OpMode {
 
         flywheelMotorR.setVelocity(curTargetVelocityR);
 
+
         double curVelocityR = flywheelMotorR.getVelocity();
         double errorR = curTargetVelocityR - curVelocityR;
 
+        if(gamepad2.right_bumper&&gamepad2.atRest()){
+            outake.setPosition(outake.getPosition()+0.01);
+        }
+        if(gamepad2.left_bumper&&gamepad1.atRest()){
+            outake.setPosition(outake.getPosition()-0.01);
+        }
         telemetry.addLine("Right Motor");
         telemetry.addData("Target Velocity", curTargetVelocityR);
         telemetry.addData("Current Velocity", "%.2f", curVelocityR);
@@ -146,25 +138,7 @@ public class FlywheelTuner extends OpMode {
         telemetry.addData("P", "%.4f", rightP);
         telemetry.addData("F", "%.4f", rightF);
         telemetry.addData("Step Size", "%.4f", stepSizes[stepIndex]);
-
-        telemetry.update();
-
-        /* ================= ANGLE ================= */
-
-        if (gamepad1.right_bumper) {
-            angle += 0.1;
-        }
-        if (gamepad1.right_trigger) {
-            angle -= 0.1;
-        }
-
-        angle = Math.max(0.0, Math.min(1.0, angle));
-        angleServo.setPosition(angle);
-
-        angleServo.setPosition(angle);
-
-        telemetry.addLine("Angle Stuff");
-        telemetry.addData("Current Angle", "%.3f" angle);
+        telemetry.addData("servo",outake.getPosition());
 
         telemetry.update();
     }

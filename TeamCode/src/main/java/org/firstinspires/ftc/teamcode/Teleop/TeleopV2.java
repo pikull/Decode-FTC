@@ -6,9 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 
@@ -32,8 +33,8 @@ public class TeleopV2 extends LinearOpMode {
         DcMotor intake = hardwareMap.dcMotor.get("intake");
 
 
-        Servo intakeS = hardwareMap.servo.get("intakeS");
-        CRServo outakeS = hardwareMap.get(CRServo.class, "outakeS");
+        Servo outakeS = hardwareMap.servo.get("outakeS");
+        CRServo intakeS = hardwareMap.get(CRServo.class, "intakeS");
         double kp = 0.004, ki = 0, kd = 0, kf = 0.0000007;
 
         PIDFController controller = new PIDFController(kp, ki, kd, kf);
@@ -49,6 +50,7 @@ public class TeleopV2 extends LinearOpMode {
         leftS.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
