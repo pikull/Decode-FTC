@@ -197,7 +197,8 @@ public class TeleopV2 extends LinearOpMode {
             // SCISSOR LIFT + INTAKE ///////////////
 
             // extends scissor lift, extends 4bar
-
+            
+            //sigma
 
         }
     }
