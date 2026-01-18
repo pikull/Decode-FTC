@@ -63,9 +63,9 @@ public class TeleopV2 extends LinearOpMode {
 
         double startMovingArmBackDistFromTarget = 600;
 
-        double cameraHeight = 7.0; // NEEDS TO BE ADJUSTED IN PERSON (UNITS ARE INCHES !!!!)
-        double targetHeight = 18.0; // ^^^^
-        double cameraAngle = 20.0; // ^^^^
+        double cameraHeight = 11; // NEEDS TO BE ADJUSTED IN PERSON (UNITS ARE INCHES !!!!)
+        double targetHeight = 30.0; // ^^^^
+        double cameraAngle = 10.0; // ^^^^
         double ty = limelight.getTY();
 
 
@@ -173,7 +173,7 @@ public class TeleopV2 extends LinearOpMode {
                 double finalDistance = (distanceTrig + distancePose) / 2
 
 
-                if (finalDistance < 60) { //DOUBLE CHECK SHORT DISTANCE
+                if (finalDistance < 70) { //DOUBLE CHECK SHORT DISTANCE
 
                     flywheelMotorL.setVelocity(1160);
                     flywheelMotorR.setVelocity(1160);
